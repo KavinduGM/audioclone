@@ -1,0 +1,11 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.12
+TTS==0.22.0
+numpy<2.0
+pydub==0.25.1
+nltk==3.9.1
+soundfile==0.12.1
+# NOTE: torch + torchaudio are installed separately by setup.bat / run.sh
+# so we can pick the CUDA-enabled wheels for Windows (cu121) or CPU wheels
+# for the VPS. Do not add them here.

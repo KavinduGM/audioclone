@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Voice Clone Tool</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Voice Clone Tool</h1>
+    <div class="header-right">
+      <div class="status" id="status">checking…</div>
+      <button class="ghost" id="logoutBtn" style="display:none;">Sign out</button>
+    </div>
+  </header>
+
+  <section class="card">
+    <h2>1. Clone a new voice</h2>
+    <form id="cloneForm">
+      <label>Voice name
+        <input type="text" name="name" required placeholder="e.g. Narrator A" />
+      </label>
+      <label>Description (optional)
+        <input type="text" name="description" placeholder="deep calm male voice" />
+      </label>
+      <label>Reference audio (wav / mp3 / m4a, 10s–20min)
+        <input type="file" name="file" accept="audio/*" required />
+      </label>
+      <button type="submit" id="cloneBtn">Clone Voice</button>
+      <div class="msg" id="cloneMsg"></div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>2. Your voices</h2>
+    <div id="voicesList" class="voices"></div>
+  </section>
+
+  <section class="card">
+    <h2>3. Generate audio</h2>
+    <form id="genForm">
+      <label>Select voice
+        <select name="voice_id" id="voiceSelect" required></select>
+      </label>
+      <label>Text
+        <textarea name="text" rows="10" required
+          placeholder="Paste any length of text here. It will be split into chunks and stitched into a single audio file."></textarea>
+      </label>
+      <label>Speed: <span id="speedVal">1.00</span>x
+        <input type="range" name="speed" id="speed" min="0.5" max="2.0" step="0.05" value="1.0" />
+      </label>
+      <button type="submit" id="genBtn">Generate &amp; Download</button>
+      <div class="msg" id="genMsg"></div>
+      <audio id="player" controls style="display:none; width:100%; margin-top:12px;"></audio>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>4. API keys</h2>
+    <p class="hint">
+      Use these keys to access this tool from other machines via HTTP.
+      Send <code>X-API-Key: &lt;key&gt;</code> on every request.
+    </p>
+    <form id="keyForm" class="inline">
+      <input type="text" name="name" placeholder="Key name (e.g. 'batch tool')" required />
+      <button type="submit" id="keyBtn">Create key</button>
+    </form>
+    <div class="msg" id="keyMsg"></div>
+    <div id="keysList" class="voices" style="margin-top:14px;"></div>
+  </section>
+</div>
+
+<!-- ---------- Login modal ---------- -->
+<div class="modal-bg" id="loginModal" style="display:none;">
+  <div class="modal">
+    <h2>Enter API key</h2>
+    <p class="hint">This server requires an API key.</p>
+    <input type="password" id="loginKey" placeholder="vct_..." />
+    <button id="loginBtn">Unlock</button>
+    <div class="msg err" id="loginMsg"></div>
+  </div>
+</div>
+
+<!-- ---------- New-key reveal modal (shown once) ---------- -->
+<div class="modal-bg" id="newKeyModal" style="display:none;">
+  <div class="modal">
+    <h2>New API key created</h2>
+    <p class="hint">Copy it now — for security it will not be shown in full again.</p>
+    <div class="key-reveal" id="newKeyValue"></div>
+    <button id="copyKeyBtn">Copy to clipboard</button>
+    <button id="closeKeyBtn" class="ghost">Close</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

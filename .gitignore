@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+voices/
+api_keys.json
+*.egg-info/
+.DS_Store
