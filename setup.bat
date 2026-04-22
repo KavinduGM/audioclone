@@ -118,16 +118,18 @@ if errorlevel 1 (
 REM --- 9. Create desktop shortcut ---
 echo.
 echo [*] Creating desktop shortcut...
-set "SHORTCUT=%USERPROFILE%\Desktop\Voice Clone Tool.lnk"
 set "TARGET=%~dp0start.bat"
+set "WORKDIR=%~dp0"
 set "ICON=%SystemRoot%\System32\SHELL32.dll,138"
 powershell -NoProfile -Command ^
-  "$s=(New-Object -ComObject WScript.Shell).CreateShortcut('%SHORTCUT%');" ^
+  "$desktop=[Environment]::GetFolderPath('Desktop');" ^
+  "$s=(New-Object -ComObject WScript.Shell).CreateShortcut($desktop+'\Voice Clone Tool.lnk');" ^
   "$s.TargetPath='%TARGET%';" ^
-  "$s.WorkingDirectory='%~dp0';" ^
+  "$s.WorkingDirectory='%WORKDIR%';" ^
   "$s.IconLocation='%ICON%';" ^
   "$s.Description='Voice Clone Tool';" ^
-  "$s.Save()"
+  "$s.Save();" ^
+  "Write-Host ('Shortcut created at: ' + $desktop)"
 
 echo.
 echo ============================================================
